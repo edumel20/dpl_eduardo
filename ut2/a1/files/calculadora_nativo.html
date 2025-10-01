@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UT2-A1</title>
+    <link rel="stylesheet" href="calculadora.css" />
+  </head>
+  <body>
+    <h1>Calculadora en Entorno Nativo</h1>
+    <div class="valores">
+      <form action="/calculadora.php">
+        <label for="number_1">Valor 1: </label>
+        <input
+          type="number"
+          id="valores"
+          placeholder="Ingrese el primer valor..."
+        />
+        <br />
+        <br />
+        <label for="number_2">Valor 2: </label>
+        <input
+          type="number"
+          id="valores"
+          placeholder="Ingrese el segundo valor..."
+        />
+        <br /><br />
+        <label for="operaciones">Operación</label>
+        <select id="operaciones" name="operaciones">
+          <option value="sumar">Sumar</option>
+          <option value="restar">Restar</option>
+          <option value="multiplicar">Multiplicar</option>
+          <option value="dividir">Dividir</option>
+        </select>
+        <br /><br />
+        <input type="submit" value="Calcular" />
+        <br />
+      </form>
+    </div>
+    <br />
+    <img
+      src="https://github.com/edumel20/dpl_eduardo/blob/main/ut2/a1/images/calculadora.png?raw=true"
+      alt="calculadora"
+    />
+    <br />
+  </body>
+</html>
