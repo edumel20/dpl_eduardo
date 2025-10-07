@@ -1,6 +1,6 @@
 <center>
 
-# TÍTULO DE LA PRÁCTICA
+# UT2-A1: Implantación de arquitecturas web
 
 </center>
 

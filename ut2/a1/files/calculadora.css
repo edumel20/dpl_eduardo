@@ -1,3 +1,18 @@
 * {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+
+h1 {
+  text-align: center;
+}
+
+#valores_calculadora {
+  text-align: center;
+}
+
+fieldset {
+  background-color: antiquewhite;
+  width: 60px;
+  border-radius: 5%;
+  margin: 0 auto;
+}
