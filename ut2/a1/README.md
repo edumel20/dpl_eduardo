@@ -29,7 +29,15 @@ Enumeramos el material empleado tanto hardware como software y las conficuracion
 
 #### **_Desarrollo_**. <a name="id4"></a>
 
-En esta parte explicamos detalladamente los pasos que seguimos para realizar la práctica incluyendo capturas de pantalla y explicando que vemos en ellas.
+##### Nativo:
+1. Se instala Nginx y PHP-FPM en la máquina virtual.
+![Paso_1_Nativo](https://github.com/edumel20/dpl_eduardo/blob/main/ut2/a1/images/paso_1_nativo.png?raw=true)
+
+2. Se crea la carpeta donde estará alojada la calculadora (Se le da los correspondientes permisos):
+![Paso_2_Nativo](https://github.com/edumel20/dpl_eduardo/blob/main/ut2/a1/images/paso_2_nativo.png?raw=true)
+
+3. Se crea el archivo de la calculadora (index.php):
+[Click aquí para ver el código]()
 
 > **_IMPORTANTE:_** si estamos capturando una terminal no hace falta capturar todo el escritorio y es importante que se vea el nombre de usuario.
 
