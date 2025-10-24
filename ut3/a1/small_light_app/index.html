@@ -1,1 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Generador de imágenes con ngx_small_light</title>
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    form { margin-bottom: 20px; }
+    input { margin: 5px; }
+    img { margin: 5px; width: 150px; height: 150px; object-fit: cover; }
+  </style>
+</head>
+<body>
+  <h1>Procesar imágenes con ngx_small_light</h1>
 
+  <form id="imageForm">
+    <label>Tamaño (px): <input type="number" id="size" value="200" required></label><br>
+    <label>Ancho del borde (px): <input type="number" id="borderWidth" value="5" required></label><br>
+    <label>Color del borde (#hex): <input type="text" id="borderColor" value="#ff0000" required></label><br>
+    <label>Enfoque (radioxsigma): <input type="text" id="sharpen" value="1x1" required></label><br>
+    <label>Desenfoque (radioxsigma): <input type="text" id="blur" value="0x0" required></label><br><br>
+    <button type="submit">Generar</button>
+  </form>
+
+  <div id="gallery"></div>
+
+  <script>
+    const gallery = document.getElementById("gallery");
+
+    // Crear 20 imágenes iniciales
+    for (let i = 1; i <= 20; i++) {
+      const img = document.createElement("img");
+      const num = i.toString().padStart(2, "0");
+      img.src = `images/image${num}.jpg`;
+      img.alt = `Imagen ${num}`;
+      gallery.appendChild(img);
+    }
+
+    // Escuchar el envío del formulario
+    document.getElementById("imageForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const size = document.getElementById("size").value;
+      const border = document.getElementById("borderWidth").value;
+      const color = document.getElementById("borderColor").value.replace("#", "");
+      const sharpen = document.getElementById("sharpen").value;
+      const blur = document.getElementById("blur").value;
+
+      const imgs = document.querySelectorAll("#gallery img");
+
+      imgs.forEach((img, idx) => {
+        const num = (idx + 1).toString().padStart(2, "0");
+        const base = `images/image${num}.jpg`;
+
+        // Construir la URL con los parámetros del módulo ngx_small_light
+        img.src = `/small_light(dw=${size},dh=${size},da=c,ds=s,of=jpg,bw=${border},bc=${color},sharpen=${sharpen},blur=${blur})/${base}`;
+      });
+    });
+  </script>
+</body>
+</html>
