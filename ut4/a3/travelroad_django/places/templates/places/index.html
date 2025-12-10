@@ -1,0 +1,17 @@
+<h1>My Travel Bucket List</h1>
+
+<h2>Places I'd Like to Visit</h2>
+
+<ul>
+  {% for place in wished %}
+  <li>{{ place }}</li>
+  {% endfor %}
+</ul>
+
+<h2>Places I've Already Been To</h2>
+
+<ul>
+  {% for place in visited %}
+  <li>{{ place }}</li>
+  {% endfor %}
+</ul>
