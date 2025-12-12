@@ -20,19 +20,29 @@
 
 #### ***Introducción***. <a name="id1"></a>
 
-Aquí explicamos brevemente la parte teórica que tiene que ver con la práctica que se va a realizar
+Se va a realizar una práctica que está relacionada con la administración de servidores web.
 
 #### ***Objetivos***. <a name="id2"></a>
 
-Aquí explicamos los objetivos que se pretenden alcanzar al realizar la práctica.
+El objetivo dela práctica es desplegar una aplicación web escrita en **HTML/Javascript** que permita hacer uso del módulo de Nginx **ngx_small_light**.
 
 #### ***Material empleado***. <a name="id3"></a>
 
-Enumeramos el material empleado tanto hardware como software y las conficuraciones que hacemos (configuraciones de red por ejemplo) 
+- **Visual Studio Code**
+- **Nginx**
+- **Docker**
+- Módulo **ngx_small_light** 
 
 #### ***Desarrollo***. <a name="id4"></a>
 
-En esta parte explicamos detalladamente los pasos que seguimos para realizar la práctica incluyendo capturas de pantalla y explicando que vemos en ellas. 
+#### **Pasos a seguir**:
+##### **Paso 1: Instalar el módulo ngx_small_light**
+- Se instala la siguiente dependencia
+![paso_1_ut3_a1](https://github.com/edumel20/dpl_eduardo/blob/main/ut3/a1/capturas_ut3_a1/captura_ut3_a1_paso_1.png?raw=true)
+- Se descarga el código fuente del módulo:
+![paso_2_ut3_a1](https://github.com/edumel20/dpl_eduardo/blob/main/ut3/a1/capturas_ut3_a1/captura_ut3_a1_paso_2.png?raw=true)
+- Se configura el módulo ejecutando el siguiente comando:
+![paso_3_ut3_a1](https://github.com/edumel20/dpl_eduardo/blob/main/ut3/a1/capturas_ut3_a1/captura_ut3_a1_paso_3.png?raw=true)
 
 > ***IMPORTANTE:*** si estamos capturando una terminal no hace falta capturar todo el escritorio y es importante que se vea el nombre de usuario.
 
