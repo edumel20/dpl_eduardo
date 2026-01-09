@@ -1,0 +1,101 @@
+ git clone https://github.com/edumel20/dpl_eduardo.git
+   94  cd dpl_eduardo/ut4/a3/travelroad_django/
+   95  python3 -m venv --prompt travelroad .venv
+   96  source .venv/bin/activate
+   97  sudo apt-get update
+   98  sudo apt install libpq-dev python3-dev
+   99  pip3 install psycopg2
+  100  sudo apt-get update
+  101  sudo apt install libpq-dev python3-dev
+  102  pip3 install psycopg2
+  103  sudo apt install python3-psycopg2
+  104  pip install -r requirements.txt
+  105  pip --version
+  106  ls -l
+  107  nano requirements.txt 
+  108  pip install -r requirements.txt
+  109  nano .env
+  110  pip install gunicorn
+  111  gunicorn main.wsgi:application
+  112  nano requirements.txt 
+  113  sudo apt install -y supervisor
+  114  sudo systemctl status supervisor
+  115  supervisorctl status
+  116  sudo groupadd supervisor
+  117  sudo nano /etc/supervisor/supervisord.conf
+  118  sudo systemctl restart supervisor
+  119  sudo usermod -a -G supervisor dpl_eduardo
+  120  sudo usermod -a -G supervisor dplprod_eduardo
+  121  git add .ç
+  122  git add .
+  123  git commit - m "casi se termina la práctica de django"
+  124  git commit -m "casi se termina la práctica de django"
+  125  git config --global user.email "rabadanmelianeduardo@gmail.com"
+ cd ..
+  127  history
+  128  nano comandos_practica_python.txt
+  129  git config --global user.name "edumel20"
+  130  git push
+  131  cd ..
+  132  git add .
+  133  git commit -m "le queda poquito a esta práctica"
+  134  git push
+  135  deactivate
+  136  sudo poweroff
+  137  cd dpl_eduardo/ut4/a3/travelroad_django/
+  138  supervisorctl help
+  139  source source .venv/bin/activate
+  140  source .venv/bin/activate
+  141  nano run.sh
+  142  chmod +x run.sh
+  143  deactivate
+  144  sudo nano /etc/supervisor/conf.d/travelroad.conf
+  145  supervisorctl reread
+  146  cd ..
+  147  supervisorctl reread
+  148  sudo supervisorctl reread
+  149  sudo supervisorctl add travelroad
+  150  sudo supervisorctl status
+  151  supervisorctl status
+  152  sudo supervisorctl status
+  153  cd /dpl_eduardo/ut4/a3/travelroad_django
+  154  cd dpl_eduardo/ut4/a3/travelroad_django
+  155  sudo nano /etc/supervisor/conf.d/travelroad.conf
+  156  cd ..
+  157  chmod +x /home/dplprod_alumno/dpl_eduardo/ut4/a3/travelroad_django/run.sh
+  158  chmod o+x /home/dplprod_alumno
+  159  cd dpl_eduardo/ut4/a3/travelroad_django
+  160  sudo nano /etc/supervisor/conf.d/travelroad.conf
+  161  ls -l
+  162  nano run.sh 
+  163  chmod +x /home/dplprod_alumno/dpl_eduardo/ut4/a3/travelroad_django/run.sh
+  164  sudo -u dplprod_eduardo /home/dplprod_alumno/dpl_eduardo/ut4/a3/travelroad_django/run.sh
+  165  cd ../../..
+  166  cd ..
+  167  supervisorctl reread
+  168  sudo supervisorctl reread
+  169  sudo supervisorctl update
+  170  sudo supervisor status
+  171  sudo supervisorctl status
+  172  sudo nano /etc/nginx/conf.d/travelroad.conf
+  173  cd dpl_eduardo/ut4/a3/travelroad_django
+  174  sudo nano run.sh 
+  175  cd ../../../..
+  176  sudo nano /etc/nginx/conf.d/travelroad.conf
+  177  sudo systemctl reload nginx
+  178  sudo nano /etc/nginx/conf.d/travelroad.conf
+  179  sudo nano /etc/hosts
+  180  sudo systemctl reload nginx
+  181  sudo nano /etc/hosts
+  182  ip a
+  183  sudo supervisorctl restart travelroad
+  184  ls -l /tmp/travelroad.sock
+  185  sudo nginx -t
+  186  sudo nano /etc/nginx/conf.d/travelroad.conf
+  187  sudo nginx -t
+  188  sudo systemctl restart nginx
+  189  cd dpl_eduardo/ut4/a3/travelroad_django/
+  190  ls -l
+  191  cd main
+  192  sudo nano settings.py 
+  193  cd ..
