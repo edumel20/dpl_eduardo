@@ -19,11 +19,11 @@
 
 #### ***Introducción***. <a name="id1"></a>
 
-Se va a realizar una práctica que está relacionada con la administración de servidores web. En esta práctica desplegaremos una aplicación web que permite procesar imágenes en tiempo real utilizando el módulo **ngx_small_light** de Nginx, el cual genera miniaturas y aplica efectos a las imágenes a través de peticiones URL.
+Se va a realizar una práctica relacionada con la administración de servidores web. El objetivo de esta tarea es desplegar una aplicación web escrita en HTML/Javascript que permita hacer uso del módulo de Nginx ngx_small_light. Este módulo sirve para generar "miniaturas" de imágenes on the fly además de otros posibles procesamientos a través de peticiones URL.
 
 #### ***Objetivos***. <a name="id2"></a>
 
-El objetivo de esta práctica es desplegar una aplicación web escrita en **HTML/Javascript** que permita hacer uso del módulo de Nginx **ngx_small_light**. Este módulo sirve para generar "miniaturas" de imágenes on the fly además de otros posibles procesamientos a través de peticiones URL.
+El objetivo de esta práctica es desplegar una aplicación web escrita en **HTML/Javascript** que permita hacer uso del módulo de Nginx **ngx_small_light**.
 
 Los objetivos específicos son:
 - Instalar el módulo ngx_small_light y cargarlo dinámicamente en Nginx
@@ -41,40 +41,38 @@ Los objetivos específicos son:
 - **Docker** - Contenedor para el entorno de desarrollo
 - **Git** - Control de versiones
 - **OpenSSL** - Para la generación de certificados SSL
+- **build-essential** - Herramientas de compilación
+- **imagemagick** - Biblioteca de procesamiento de imágenes
+- **libpcre3, libpcre3-dev** - Bibliotecas PCRE
+- **libmagickwand-dev** - Biblioteca MagickWand
 - Módulo **ngx_small_light** - Módulo de Nginx para procesamiento de imágenes
 
 #### ***Desarrollo***. <a name="id4"></a>
 
-#### **Pasos a seguir**:
+##### **Instalación del módulo ngx_small_light**
 
-##### **Paso 1: Instalar el módulo ngx_small_light**
+Para la instalación del módulo seguir las siguientes instrucciones:
 
-Primero, instalamos las dependencias necesarias:
+1. **Instalar las dependencias necesarias:**
 ```bash
-sudo apt update
 sudo apt install -y build-essential imagemagick libpcre3 libpcre3-dev libmagickwand-dev
 ```
 
-![paso_1_ut3_a1](https://github.com/edumel20/dpl_eduardo/blob/main/ut3/a1/capturas_ut3_a1/captura_ut3_a1_paso_1.png?raw=true)
-
-Descargamos el código fuente del módulo:
+2. **Descargar el código fuente del módulo:**
 ```bash
 git clone https://github.com/cubicdaiya/ngx_small_light.git
 ```
 
-![paso_2_ut3_a1](https://github.com/edumel20/dpl_eduardo/blob/main/ut3/a1/capturas_ut3_a1/captura_ut3_a1_paso_2.png?raw=true)
-
-Configuramos el módulo entrando en la carpeta y ejecutando:
+3. **Configurar el módulo:**
+Entrar en la carpeta del módulo y ejecutar:
 ```bash
 cd ngx_small_light
 ./setup
 ```
 
-![paso_3_ut3_a1](https://github.com/edumel20/dpl_eduardo/blob/main/ut3/a1/capturas_ut3_a1/captura_ut3_a1_paso_3.png?raw=true)
+##### **Configuración de Nginx**
 
-##### **Paso 2: Configurar Nginx con el módulo ngx_small_light**
-
-Para cargar dinámicamente el módulo, necesitamos recompilar Nginx o utilizar la técnica de módulos dinámicos. La forma más sencilla es recompilar Nginx añadiendo el módulo:
+Para cargar dinámicamente el módulo, es necesario compilar Nginx añadiendo el módulo:
 
 ```bash
 # Descargar fuentes de Nginx
@@ -83,21 +81,23 @@ tar -xzvf nginx-1.24.0.tar.gz
 cd nginx-1.24.0
 
 # Configurar con el módulo ngx_small_light
-./configure --with-compat --add-dynamic-module=/ruta/a/ngx_small_light
+./configure --with-compat --add-dynamic-module=/home/daw2/Escritorio/dpl_eduardo/ut3/a1/ngx_small_light
 
 # Compilar e instalar
 make
 sudo make install
 ```
 
-##### **Paso 3: Crear el Virtual Host**
+##### **Crear el Virtual Host**
 
-Creamos la configuración del virtual host en `/etc/nginx/sites-available/images.edurabadan.me`:
+Crear un virtual host específico que atienda peticiones en el dominio `images.nombrealumno.me`.
+
+**Nombre del archivo:** `images.nombrealumno.me` (en `/etc/nginx/sites-available/`)
 
 ```nginx
 server {
     listen 80;
-    server_name images.[TU_IP].sslip.io;
+    server_name images.eduardo.me www.images.eduardo.me;
     
     # Redirigir HTTP a HTTPS
     return 301 https://$host$request_uri;
@@ -105,49 +105,40 @@ server {
 
 server {
     listen 443 ssl;
-    server_name images.[TU_IP].sslip.io;
+    server_name images.eduardo.me;
     
     # Configuración SSL
-    ssl_certificate /etc/ssl/certs/images.sslip.io.crt;
-    ssl_certificate_key /etc/ssl/private/images.sslip.io.key;
+    ssl_certificate /etc/ssl/certs/images.ssl.crt;
+    ssl_certificate_key /etc/ssl/private/images.ssl.key;
     
     # Habilitar módulo small_light para /img
     location /img/ {
         small_light on;
         small_light_mode 'cover';
         small_light_preserve_ratio 'on';
-        
-        # Configuración de procesamiento de imagen
-        small_light_parameter_filter 'border,blur,sharpen';
-    }
-    
-    # Servir imágenes estáticas
-    location /img/ {
-        alias /var/www/images.sslip.io/img/;
-        small_light on;
     }
     
     # Servir aplicación web
     location / {
-        root /var/www/images.sslip.io;
+        root /home/daw2/Escritorio/dpl_eduardo/ut3/a1;
         index index.html;
     }
 }
 
 server {
     listen 443 ssl;
-    server_name images.[TU_IP].sslip.io;
+    server_name www.images.eduardo.me;
     
     # Configuración SSL
-    ssl_certificate /etc/ssl/certs/images.sslip.io.crt;
-    ssl_certificate_key /etc/ssl/private/images.sslip.io.key;
+    ssl_certificate /etc/ssl/certs/images.ssl.crt;
+    ssl_certificate_key /etc/ssl/private/images.ssl.key;
     
     # Redirigir www al dominio base
-    return 301 https://images.[TU_IP].sslip.io$request_uri;
+    return 301 https://images.eduardo.me$request_uri;
 }
 ```
 
-##### **Paso 4: Generar certificado SSL autofirmado**
+##### **Generar certificado SSL autofirmado**
 
 ```bash
 # Crear directorio para certificados
@@ -155,36 +146,165 @@ sudo mkdir -p /etc/ssl/private
 sudo mkdir -p /etc/ssl/certs
 
 # Generar clave privada
-sudo openssl genrsa -out /etc/ssl/private/images.sslip.io.key 2048
+sudo openssl genrsa -out /etc/ssl/private/images.ssl.key 2048
 
 # Generar certificado
 sudo openssl req -new -x509 \
-    -key /etc/ssl/private/images.sslip.io.key \
-    -out /etc/ssl/certs/images.sslip.io.crt \
+    -key /etc/ssl/private/images.ssl.key \
+    -out /etc/ssl/certs/images.ssl.crt \
     -days 365 \
-    -subj "/C=ES/ST=Spain/L=Santa Cruz de Tenerife/O=EDU/CN=images.[TU_IP].sslip.io"
+    -subj "/C=ES/ST=Spain/L=Localidad/O=Centro/CN=images.eduardo.me"
 
 # Ver certificado
-openssl x509 -in /etc/ssl/certs/images.sslip.io.crt -text -noout
+openssl x509 -in /etc/ssl/certs/images.ssl.crt -text -noout
 ```
 
-![certificado_ssl](https://github.com/edumel20/dpl_eduardo/blob/main/ut3/a1/capturas_ut3_a1/certificado_ssl.png?raw=true)
+##### **Subir imágenes**
 
-##### **Paso 5: Subir imágenes**
+Este paso es fundamental para que la aplicación web pueda procesar las imágenes. A continuación se detalla el proceso completo:
 
-Descomprimimos y subimos las imágenes al directorio del servidor:
+**1. Obtener el archivo images.zip**
+
+El archivo `images.zip` contiene las imágenes de prueba que utilizará la aplicación. Este archivo debe estar disponible en el entorno de trabajo (puede descargarse del aula virtual, repositorio de la asignatura, o ser proporcionado por el profesor).
+
+**2. Descomprimir las imágenes**
 
 ```bash
-# Descomprimir imágenes
+# Verificar que el archivo existe
+ls -lh images.zip
+
+# Descomprimir el archivo (si está comprimido)
 unzip images.zip
 
-# Subir al servidor (usando SCP o directamente al contenedor Docker)
-docker cp img/. contenedor_nginx:/var/www/images.sslip.io/img/
+# Ver el contenido extraído
+ls -la
 ```
 
-##### **Paso 6: Crear la aplicación web**
+**3. Estructura de carpetas esperada**
 
-Creamos el archivo `index.html` con el formulario para el procesamiento de imágenes:
+Tras la descompresión, debe aparecer una carpeta llamada `img` con las imágenes numeradas:
+
+```
+img/
+├── image01.jpg
+├── image02.jpg
+├── image03.jpg
+├── ...
+├── image20.jpg
+```
+
+**4. Crear la carpeta de trabajo y copiar las imágenes**
+
+Se recomienda trabajar en una carpeta dentro del directorio personal del usuario:
+
+```bash
+# Crear la carpeta de trabajo (si no existe)
+mkdir -p ~/trabajo/img
+
+# Copiar las imágenes a la carpeta de trabajo
+cp -r img/* ~/trabajo/img/
+
+# Verificar la copia
+ls -la ~/trabajo/img/
+```
+
+**5. Configurar permisos de las imágenes**
+
+Es importante que Nginx tenga permisos de lectura sobre las imágenes:
+
+```bash
+# Dar permisos de lectura a todos los usuarios
+chmod -R 644 ~/trabajo/img/
+
+# Verificar permisos
+ls -l ~/trabajo/img/
+```
+
+**6. Verificar que Nginx puede acceder a las imágenes**
+
+```bash
+# Probar acceder a una imagen directamente
+curl -I http://localhost/img/image01.jpg
+```
+
+Debería devolver una respuesta HTTP 200 si todo está configurado correctamente.
+
+**7. Ubicación definitiva de las imágenes**
+
+La estructura final debe ser:
+```
+~/trabajo/
+├── img/
+│   ├── image01.jpg
+│   ├── image02.jpg
+│   └── ...
+│   └── image20.jpg
+├── index.html
+└── ...
+```
+
+**8. Configuración en Nginx**
+
+Asegurarse de que el location `/img/` en el virtual host apunte a la carpeta correcta:
+
+```nginx
+location /img/ {
+    small_light on;
+    small_light_mode 'cover';
+    small_light_preserve_ratio 'on';
+    
+    # Ruta a las imágenes
+    alias /home/usuario/trabajo/img/;
+    
+    # Opcional: establecer permisos de caché
+    expires 7d;
+}
+```
+
+**9. Verificación final**
+
+Reiniciar Nginx y verificar que las imágenes se sirven correctamente:
+
+```bash
+# Verificar configuración de Nginx
+sudo nginx -t
+
+# Reiniciar el servicio
+sudo systemctl restart nginx
+
+# Probar acceso a una imagen
+curl "http://images.eduardo.me/img/image01.jpg?dw=300&dh=300"
+```
+
+**Posibles problemas y soluciones:**
+
+| Problema | Posible causa | Solución |
+|----------|---------------|----------|
+| Error 403 Forbidden | Permisos incorrectos | `chmod -R 644 ~/trabajo/img/` |
+| Error 404 Not Found | Ruta incorrecta | Verificar `alias` o `root` en Nginx |
+| Error 500 | Módulo no cargado | Verificar que ngx_small_light está cargado |
+| Imágenes no se procesan | Parámetros incorrectos | Revisar sintaxis de parámetros GET |
+
+**Nota importante:** El nombre de las imágenes debe seguir el patrón `imageXX.jpg` donde XX es un número del 01 al 20. La aplicación web presupone esta nomenclatura para generar las URLs de procesamiento.
+
+##### **Crear la aplicación web**
+
+La aplicación debe contener un formulario web con los siguientes campos de texto:
+
+- **Tamaño de la imagen** → En píxeles (corresponde al "lado": son imágenes cuadradas)
+- **Ancho del borde** → En píxeles
+- **Color del borde** → Formato hexadecimal
+- **Enfoque** → Formato `<radius>x<sigma>`
+- **Desenfoque** → Formato `<radius>x<sigma>`
+
+Al pulsar el botón de "Generar" se tienen que mostrar todas las imágenes cambiando la URL del atributo src de cada imagen `<img>` para contemplar los parámetros establecidos en el formulario.
+
+**Notas importantes:**
+- Se puede presuponer que siempre van a haber 20 imágenes con los nombres image01.jpg, image02.jpg, ... y que las imágenes son cuadradas
+- Usar peticiones GET del módulo ngx_small_light para el tratamiento de las imágenes, modificando el atributo src de cada `<img>`
+- Trabajar en una carpeta dentro del `$HOME`
+
+**Ejemplo de estructura HTML/JavaScript:**
 
 ```html
 <!DOCTYPE html>
@@ -221,11 +341,6 @@ Creamos el archivo `index.html` con el formulario para el procesamiento de imág
         header h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
-        }
-        
-        header p {
-            font-size: 1.1em;
-            opacity: 0.9;
         }
         
         .main-content {
@@ -421,22 +536,12 @@ Creamos el archivo `index.html` con el formulario para el procesamiento de imág
     </div>
     
     <script>
-        // Lista de imágenes disponibles
-        const images = [
-            'imagen1.jpg',
-            'imagen2.jpg',
-            'imagen3.jpg',
-            'imagen4.jpg',
-            'imagen5.jpg',
-            'imagen6.jpg'
-        ];
-        
-        // Generar URLs para las imágenes procesadas
+        // Generar URLs para las imágenes procesadas con ngx_small_light
         function generateImageUrl(filename, params) {
-            const baseUrl = `https://images.[TU_IP].sslip.io/img/${filename}`;
+            const baseUrl = `https://images.nombrealumno.me/img/${filename}`;
             const queryParams = new URLSearchParams();
             
-            // Tamaño de la imagen
+            // Tamaño de la imagen (cuadrada)
             queryParams.set('dw', params.size);
             queryParams.set('dh', params.size);
             
@@ -445,13 +550,13 @@ Creamos el archivo `index.html` con el formulario para el procesamiento de imág
                 queryParams.set('bo', `${params.borderWidth}px_solid_${params.borderColor}`);
             }
             
-            // Enfoque
+            // Enfoque (sharpen)
             if (params.focus) {
                 const [radius, sigma] = params.focus.split('x');
                 queryParams.set('sharpen', `${radius}x${sigma}`);
             }
             
-            // Desenfoque
+            // Desenfoque (blur)
             if (params.blur) {
                 const [radius, sigma] = params.blur.split('x');
                 queryParams.set('blur', `${radius}x${sigma}`);
@@ -465,18 +570,20 @@ Creamos el archivo `index.html` con el formulario para el procesamiento de imág
             const gallery = document.getElementById('imageGallery');
             gallery.innerHTML = '';
             
-            images.forEach(image => {
-                const imageUrl = generateImageUrl(image, params);
+            // Generar las 20 imágenes (image01.jpg a image20.jpg)
+            for (let i = 1; i <= 20; i++) {
+                const imageName = `image${i.toString().padStart(2, '0')}.jpg`;
+                const imageUrl = generateImageUrl(imageName, params);
                 
                 const imageItem = document.createElement('div');
                 imageItem.className = 'image-item';
                 imageItem.innerHTML = `
-                    <img src="${imageUrl}" alt="${image}" loading="lazy">
-                    <p>${image}</p>
+                    <img src="${imageUrl}" alt="${imageName}" loading="lazy">
+                    <p>${imageName}</p>
                 `;
                 
                 gallery.appendChild(imageItem);
-            });
+            }
         }
         
         // Manejar envío del formulario
@@ -509,11 +616,11 @@ Creamos el archivo `index.html` con el formulario para el procesamiento de imág
 </html>
 ```
 
-##### **Paso 7: Habilitar el Virtual Host y reiniciar Nginx**
+##### **Habilitar el Virtual Host y reiniciar Nginx**
 
 ```bash
 # Crear enlace simbólico para habilitar el sitio
-sudo ln -s /etc/nginx/sites-available/images.sslip.io /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/images.eduardo.me /etc/nginx/sites-enabled/
 
 # Verificar configuración de Nginx
 sudo nginx -t
@@ -522,21 +629,7 @@ sudo nginx -t
 sudo systemctl restart nginx
 ```
 
-##### **Paso 8: Configurar DNS**
-
-Asegurarse de que el dominio `images.[TU_IP].sslip.io` apunte a la IP del servidor donde está desplegado Nginx. Puedes usar SSLIP.IO para crear un subdominio temporal con tu IP.
-
-##### **Paso 9: Probar la aplicación**
-
-Abrir en el navegador: `https://images.[TU_IP].sslip.io`
-
-Debería verse la aplicación web con el formulario y las imágenes procesadas según los parámetros configurados.
-
-> ***IMPORTANTE:*** si estamos capturando una terminal no hace falta capturar todo el escritorio y es importante que se vea el nombre de usuario.
-
-Si encontramos dificultades a la hora de realizar algún paso debemos explicar esas dificultades, que pasos hemos seguido para resolverla y los resultados obtenidos.
-
-#### **Parámetros de ngx_small_light**
+##### **Parámetros de ngx_small_light**
 
 | Parámetro | Descripción | Ejemplo |
 |-----------|-------------|---------|
@@ -548,6 +641,10 @@ Si encontramos dificultades a la hora de realizar algún paso debemos explicar e
 | `c` | Calidad JPEG | `85` |
 | `fmt` | Formato de salida | `jpeg`, `png`, `webp` |
 
+
+
+Si encontramos dificultades a la hora de realizar algún paso debemos explicar esas dificultades, que pasos hemos seguido para resolverla y los resultados obtenidos.
+
 #### ***Conclusiones***. <a name="id5"></a>
 
 Esta práctica ha permitido adquirir conocimientos sobre:
@@ -558,7 +655,7 @@ Esta práctica ha permitido adquirir conocimientos sobre:
 
 3. **Procesamiento de imágenes en tiempo real**: El módulo ngx_small_light permite generar miniaturas y aplicar efectos sin necesidad de software adicional, procesando las imágenes bajo demanda.
 
-4. **Desarrollo de aplicaciones web con JavaScript**: Se ha creado una interfaz web dinámica que permite a los usuarios configurar parámetros de procesamiento de imágenes.
+4. **Desarrollo de aplicaciones web con JavaScript**: Se ha creado una interfaz web dinámica que permite a los usuarios configurar parámetros de procesamiento de imágenes mediante peticiones GET al módulo ngx_small_light.
 
 5. **Seguridad en servidores web**: La implementación de SSL/TLS y las redirecciones seguras garantizan una conexión cifrada.
 
