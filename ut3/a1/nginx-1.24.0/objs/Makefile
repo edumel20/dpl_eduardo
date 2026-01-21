@@ -74,6 +74,7 @@ CORE_DEPS = src/core/nginx.h \
 	src/os/unix/ngx_process_cycle.h \
 	src/os/unix/ngx_linux_config.h \
 	src/os/unix/ngx_linux.h \
+	src/event/ngx_event_openssl.h \
 	src/core/ngx_regex.h \
 	objs/ngx_auto_config.h
 
@@ -94,14 +95,15 @@ HTTP_DEPS = src/http/ngx_http.h \
 	src/http/ngx_http_script.h \
 	src/http/ngx_http_upstream.h \
 	src/http/ngx_http_upstream_round_robin.h \
-	src/http/modules/ngx_http_ssi_filter_module.h
+	src/http/modules/ngx_http_ssi_filter_module.h \
+	src/http/modules/ngx_http_ssl_module.h
 
 
 HTTP_INCS = -I src/http \
 	-I src/http/modules
 
 
-ADDON_DEPS = $(CORE_DEPS)                                                                      /home/daw2/Escritorio/dpl_eduardo/ut3/a1/ngx_small_light/src/ngx_http_small_light_module.h                      /home/daw2/Escritorio/dpl_eduardo/ut3/a1/ngx_small_light/src/ngx_http_small_light_parser.h                      /home/daw2/Escritorio/dpl_eduardo/ut3/a1/ngx_small_light/src/ngx_http_small_light_param.h                       /home/daw2/Escritorio/dpl_eduardo/ut3/a1/ngx_small_light/src/ngx_http_small_light_size.h                        /home/daw2/Escritorio/dpl_eduardo/ut3/a1/ngx_small_light/src/ngx_http_small_light_type.h                        /home/daw2/Escritorio/dpl_eduardo/ut3/a1/ngx_small_light/src/ngx_http_small_light_imagemagick.h                  $(HTTP_DEPS)
+ADDON_DEPS = $(CORE_DEPS)                                                                      /home/daw2/ngx_small_light/src/ngx_http_small_light_module.h                      /home/daw2/ngx_small_light/src/ngx_http_small_light_parser.h                      /home/daw2/ngx_small_light/src/ngx_http_small_light_param.h                       /home/daw2/ngx_small_light/src/ngx_http_small_light_size.h                        /home/daw2/ngx_small_light/src/ngx_http_small_light_type.h                        /home/daw2/ngx_small_light/src/ngx_http_small_light_imagemagick.h                  $(HTTP_DEPS)
 
 
 build:	binary modules manpage
@@ -175,6 +177,8 @@ objs/nginx:	objs/src/core/nginx.o \
 	objs/src/os/unix/ngx_linux_init.o \
 	objs/src/event/modules/ngx_epoll_module.o \
 	objs/src/os/unix/ngx_linux_sendfile_chain.o \
+	objs/src/event/ngx_event_openssl.o \
+	objs/src/event/ngx_event_openssl_stapling.o \
 	objs/src/core/ngx_regex.o \
 	objs/src/http/ngx_http.o \
 	objs/src/http/ngx_http_core_module.o \
@@ -214,6 +218,7 @@ objs/nginx:	objs/src/core/nginx.o \
 	objs/src/http/modules/ngx_http_split_clients_module.o \
 	objs/src/http/modules/ngx_http_referer_module.o \
 	objs/src/http/modules/ngx_http_rewrite_module.o \
+	objs/src/http/modules/ngx_http_ssl_module.o \
 	objs/src/http/modules/ngx_http_proxy_module.o \
 	objs/src/http/modules/ngx_http_fastcgi_module.o \
 	objs/src/http/modules/ngx_http_uwsgi_module.o \
@@ -297,6 +302,8 @@ objs/nginx:	objs/src/core/nginx.o \
 	objs/src/os/unix/ngx_linux_init.o \
 	objs/src/event/modules/ngx_epoll_module.o \
 	objs/src/os/unix/ngx_linux_sendfile_chain.o \
+	objs/src/event/ngx_event_openssl.o \
+	objs/src/event/ngx_event_openssl_stapling.o \
 	objs/src/core/ngx_regex.o \
 	objs/src/http/ngx_http.o \
 	objs/src/http/ngx_http_core_module.o \
@@ -336,6 +343,7 @@ objs/nginx:	objs/src/core/nginx.o \
 	objs/src/http/modules/ngx_http_split_clients_module.o \
 	objs/src/http/modules/ngx_http_referer_module.o \
 	objs/src/http/modules/ngx_http_rewrite_module.o \
+	objs/src/http/modules/ngx_http_ssl_module.o \
 	objs/src/http/modules/ngx_http_proxy_module.o \
 	objs/src/http/modules/ngx_http_fastcgi_module.o \
 	objs/src/http/modules/ngx_http_uwsgi_module.o \
@@ -350,7 +358,7 @@ objs/nginx:	objs/src/core/nginx.o \
 	objs/src/http/modules/ngx_http_upstream_keepalive_module.o \
 	objs/src/http/modules/ngx_http_upstream_zone_module.o \
 	objs/ngx_modules.o \
-	-lcrypt -lMagickWand-6.Q16 -lMagickCore-6.Q16 -lMagickWand-6.Q16 -lMagickCore-6.Q16 -lpcre2-8 -lz \
+	-lcrypt -lMagickWand-6.Q16 -lMagickCore-6.Q16 -lMagickWand-6.Q16 -lMagickCore-6.Q16 -lpcre2-8 -lssl -lcrypto -lz \
 	-Wl,-E
 	
 
@@ -833,6 +841,20 @@ objs/src/os/unix/ngx_linux_sendfile_chain.o:	$(CORE_DEPS) \
 		src/os/unix/ngx_linux_sendfile_chain.c
 
 
+objs/src/event/ngx_event_openssl.o:	$(CORE_DEPS) \
+	src/event/ngx_event_openssl.c
+	$(CC) -c $(CFLAGS) $(CORE_INCS) \
+		-o objs/src/event/ngx_event_openssl.o \
+		src/event/ngx_event_openssl.c
+
+
+objs/src/event/ngx_event_openssl_stapling.o:	$(CORE_DEPS) \
+	src/event/ngx_event_openssl_stapling.c
+	$(CC) -c $(CFLAGS) $(CORE_INCS) \
+		-o objs/src/event/ngx_event_openssl_stapling.o \
+		src/event/ngx_event_openssl_stapling.c
+
+
 objs/src/core/ngx_regex.o:	$(CORE_DEPS) \
 	src/core/ngx_regex.c
 	$(CC) -c $(CFLAGS) $(CORE_INCS) \
@@ -1106,6 +1128,13 @@ objs/src/http/modules/ngx_http_rewrite_module.o:	$(CORE_DEPS) $(HTTP_DEPS) \
 		src/http/modules/ngx_http_rewrite_module.c
 
 
+objs/src/http/modules/ngx_http_ssl_module.o:	$(CORE_DEPS) $(HTTP_DEPS) \
+	src/http/modules/ngx_http_ssl_module.c
+	$(CC) -c $(CFLAGS) $(CORE_INCS) $(HTTP_INCS) \
+		-o objs/src/http/modules/ngx_http_ssl_module.o \
+		src/http/modules/ngx_http_ssl_module.c
+
+
 objs/src/http/modules/ngx_http_proxy_module.o:	$(CORE_DEPS) $(HTTP_DEPS) \
 	src/http/modules/ngx_http_proxy_module.c
 	$(CC) -c $(CFLAGS) $(CORE_INCS) $(HTTP_INCS) \
@@ -1227,45 +1256,45 @@ objs/ngx_http_small_light_module_modules.o:	$(CORE_DEPS) \
 
 
 objs/addon/src/ngx_http_small_light_module.o:	$(ADDON_DEPS) \
-	/home/daw2/Escritorio/dpl_eduardo/ut3/a1/ngx_small_light/src/ngx_http_small_light_module.c
+	/home/daw2/ngx_small_light/src/ngx_http_small_light_module.c
 	$(CC) -c -fPIC $(CFLAGS) $(ALL_INCS) \
 		-o objs/addon/src/ngx_http_small_light_module.o \
-		/home/daw2/Escritorio/dpl_eduardo/ut3/a1/ngx_small_light/src/ngx_http_small_light_module.c
+		/home/daw2/ngx_small_light/src/ngx_http_small_light_module.c
 
 
 objs/addon/src/ngx_http_small_light_parser.o:	$(ADDON_DEPS) \
-	/home/daw2/Escritorio/dpl_eduardo/ut3/a1/ngx_small_light/src/ngx_http_small_light_parser.c
+	/home/daw2/ngx_small_light/src/ngx_http_small_light_parser.c
 	$(CC) -c -fPIC $(CFLAGS) $(ALL_INCS) \
 		-o objs/addon/src/ngx_http_small_light_parser.o \
-		/home/daw2/Escritorio/dpl_eduardo/ut3/a1/ngx_small_light/src/ngx_http_small_light_parser.c
+		/home/daw2/ngx_small_light/src/ngx_http_small_light_parser.c
 
 
 objs/addon/src/ngx_http_small_light_param.o:	$(ADDON_DEPS) \
-	/home/daw2/Escritorio/dpl_eduardo/ut3/a1/ngx_small_light/src/ngx_http_small_light_param.c
+	/home/daw2/ngx_small_light/src/ngx_http_small_light_param.c
 	$(CC) -c -fPIC $(CFLAGS) $(ALL_INCS) \
 		-o objs/addon/src/ngx_http_small_light_param.o \
-		/home/daw2/Escritorio/dpl_eduardo/ut3/a1/ngx_small_light/src/ngx_http_small_light_param.c
+		/home/daw2/ngx_small_light/src/ngx_http_small_light_param.c
 
 
 objs/addon/src/ngx_http_small_light_size.o:	$(ADDON_DEPS) \
-	/home/daw2/Escritorio/dpl_eduardo/ut3/a1/ngx_small_light/src/ngx_http_small_light_size.c
+	/home/daw2/ngx_small_light/src/ngx_http_small_light_size.c
 	$(CC) -c -fPIC $(CFLAGS) $(ALL_INCS) \
 		-o objs/addon/src/ngx_http_small_light_size.o \
-		/home/daw2/Escritorio/dpl_eduardo/ut3/a1/ngx_small_light/src/ngx_http_small_light_size.c
+		/home/daw2/ngx_small_light/src/ngx_http_small_light_size.c
 
 
 objs/addon/src/ngx_http_small_light_type.o:	$(ADDON_DEPS) \
-	/home/daw2/Escritorio/dpl_eduardo/ut3/a1/ngx_small_light/src/ngx_http_small_light_type.c
+	/home/daw2/ngx_small_light/src/ngx_http_small_light_type.c
 	$(CC) -c -fPIC $(CFLAGS) $(ALL_INCS) \
 		-o objs/addon/src/ngx_http_small_light_type.o \
-		/home/daw2/Escritorio/dpl_eduardo/ut3/a1/ngx_small_light/src/ngx_http_small_light_type.c
+		/home/daw2/ngx_small_light/src/ngx_http_small_light_type.c
 
 
 objs/addon/src/ngx_http_small_light_imagemagick.o:	$(ADDON_DEPS) \
-	/home/daw2/Escritorio/dpl_eduardo/ut3/a1/ngx_small_light/src/ngx_http_small_light_imagemagick.c
+	/home/daw2/ngx_small_light/src/ngx_http_small_light_imagemagick.c
 	$(CC) -c -fPIC $(CFLAGS) $(ALL_INCS) \
 		-o objs/addon/src/ngx_http_small_light_imagemagick.o \
-		/home/daw2/Escritorio/dpl_eduardo/ut3/a1/ngx_small_light/src/ngx_http_small_light_imagemagick.c
+		/home/daw2/ngx_small_light/src/ngx_http_small_light_imagemagick.c
 
 
 manpage:	objs/nginx.8

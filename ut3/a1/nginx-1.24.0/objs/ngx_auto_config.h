@@ -1,4 +1,4 @@
-#define NGX_CONFIGURE " --with-compat --add-dynamic-module=/home/daw2/Escritorio/dpl_eduardo/ut3/a1/ngx_small_light"
+#define NGX_CONFIGURE " --with-compat --add-dynamic-module=/home/daw2/ngx_small_light --prefix=/usr/local/nginx --with-http_ssl_module"
 
 #ifndef NGX_COMPILER
 #define NGX_COMPILER  "gcc 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04) "
@@ -388,6 +388,11 @@
 #endif
 
 
+#ifndef NGX_HTTP_SSL
+#define NGX_HTTP_SSL  1
+#endif
+
+
 #ifndef NGX_HTTP_X_FORWARDED_FOR
 #define NGX_HTTP_X_FORWARDED_FOR  1
 #endif
@@ -445,6 +450,16 @@
 
 #ifndef NGX_PCRE
 #define NGX_PCRE  1
+#endif
+
+
+#ifndef NGX_OPENSSL
+#define NGX_OPENSSL  1
+#endif
+
+
+#ifndef NGX_SSL
+#define NGX_SSL  1
 #endif
 
 

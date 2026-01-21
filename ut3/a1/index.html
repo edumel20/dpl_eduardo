@@ -209,13 +209,13 @@
                     <div class="form-group">
                         <label for="focus">Enfoque</label>
                         <input type="text" id="focus" name="focus" value="0x0.5" placeholder="radius x sigma">
-                        <p class="help-text">Formato: <radius>x<sigma> (ej: 0x0.5)</p>
+                        <p class="help-text">Formato: radius x sigma (ej: 0x0.5)</p>
                     </div>
                     
                     <div class="form-group">
                         <label for="blur">Desenfoque</label>
                         <input type="text" id="blur" name="blur" value="10x2" placeholder="radius x sigma">
-                        <p class="help-text">Formato: <radius>x<sigma> (ej: 10x2)</p>
+                        <p class="help-text">Formato: radius x sigma (ej: 10x2)</p>
                     </div>
                     
                     <button type="submit">Generar Imágenes</button>
@@ -223,7 +223,7 @@
             </div>
             
             <div class="preview-panel">
-                <h2>Galería de Imágenes</h2>
+                <h2>Galería de Imágenes (20 imágenes)</h2>
                 <div class="image-gallery" id="imageGallery">
                     <!-- Las imágenes se generarán aquí -->
                 </div>
@@ -232,40 +232,55 @@
     </div>
     
     <script>
-        // Lista de imágenes disponibles
+        // Lista de las 20 imágenes disponibles en la carpeta img/
         const images = [
-            'imagen1.jpg',
-            'imagen2.jpg',
-            'imagen3.jpg',
-            'imagen4.jpg',
-            'imagen5.jpg',
-            'imagen6.jpg'
+            'image01.jpg',
+            'image02.jpg',
+            'image03.jpg',
+            'image04.jpg',
+            'image05.jpg',
+            'image06.jpg',
+            'image07.jpg',
+            'image08.jpg',
+            'image09.jpg',
+            'image10.jpg',
+            'image11.jpg',
+            'image12.jpg',
+            'image13.jpg',
+            'image14.jpg',
+            'image15.jpg',
+            'image16.jpg',
+            'image17.jpg',
+            'image18.jpg',
+            'image19.jpg',
+            'image20.jpg'
         ];
         
-        // Generar URLs para las imágenes procesadas
+        // Generar URLs para las imágenes procesadas con ngx_small_light
         function generateImageUrl(filename, params) {
-            const baseUrl = `https://images.[TU_IP].sslip.io/img/${filename}`;
+            // Dominio configurado en el virtual host de Nginx
+            const baseUrl = `https://images.eduardo.me/img/${filename}`;
             const queryParams = new URLSearchParams();
             
-            // Tamaño de la imagen
+            // Tamaño de la imagen (parámetros dw y dh de ngx_small_light)
             queryParams.set('dw', params.size);
             queryParams.set('dh', params.size);
             
-            // Borde
+            // Borde con formato: widthpx_solid_color
             if (params.borderWidth > 0) {
                 queryParams.set('bo', `${params.borderWidth}px_solid_${params.borderColor}`);
             }
             
-            // Enfoque
-            if (params.focus) {
+            // Enfoque con formato: radius x sigma (parámetro sharpen)
+            if (params.focus && params.focus.includes('x')) {
                 const [radius, sigma] = params.focus.split('x');
-                queryParams.set('sharpen', `${radius}x${sigma}`);
+                queryParams.set('sharpen', `${radius.trim()}x${sigma.trim()}`);
             }
             
-            // Desenfoque
-            if (params.blur) {
+            // Desenfoque con formato: radius x sigma (parámetro blur)
+            if (params.blur && params.blur.includes('x')) {
                 const [radius, sigma] = params.blur.split('x');
-                queryParams.set('blur', `${radius}x${sigma}`);
+                queryParams.set('blur', `${radius.trim()}x${sigma.trim()}`);
             }
             
             return `${baseUrl}?${queryParams.toString()}`;
@@ -282,7 +297,7 @@
                 const imageItem = document.createElement('div');
                 imageItem.className = 'image-item';
                 imageItem.innerHTML = `
-                    <img src="${imageUrl}" alt="${image}" loading="lazy">
+                    <img src="${imageUrl}" alt="${image}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22><rect fill=%22%23ddd%22 width=%22100%22 height=%22100%22/><text x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23666%22>${image}</text></svg>'">
                     <p>${image}</p>
                 `;
                 
@@ -318,4 +333,3 @@
     </script>
 </body>
 </html>
-
