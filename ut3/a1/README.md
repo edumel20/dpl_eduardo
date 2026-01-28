@@ -63,27 +63,6 @@ Los objetivos principales de esta práctica evaluable son:
 - **Git**: Control de versiones para descarga del código fuente del módulo
 - **Certificado SSL**: Certificado para HTTPS (Let's Encrypt o similar)
 
-**Estructura de archivos y rutas:**
-
-| Archivo/Carpeta | Ruta |
-|-----------------|------|
-| Carpeta del proyecto | `/home/dpl_eduardo/dpl_eduardo/ut3/a1` |
-| Aplicación web (index.html) | `/home/dpl_eduardo/dpl_eduardo/ut3/a1/index.html` |
-| Documentación | `/home/dpl_eduardo/dpl_eduardo/ut3/a1/README.md` |
-| Carpeta de imágenes | `/home/dpl_eduardo/dpl_eduardo/ut3/a1/img/` |
-| Imágenes (01-20) | `/home/dpl_eduardo/dpl_eduardo/ut3/a1/img/image01.jpg` a `/home/dpl_eduardo/dpl_eduardo/ut3/a1/img/image20.jpg` |
-| Código fuente ngx_small_light | `/home/dpl_eduardo/ngx_small_light/` |
-| Código fuente Nginx | `/home/dpl_eduardo/nginx-1.28.0` |
-| Módulo dinámico compilado | `/usr/lib/nginx/modules/ngx_http_small_light_module.so` |
-| Configuración módulos Nginx | `/etc/nginx/modules-enabled/60-small-light.conf` |
-| Configuración virtual host | `/etc/nginx/sites-available/images.eduardo.me` |
-| Enlace simbólico sitio habilitado | `/etc/nginx/sites-enabled/images.eduardo.me` |
-| Configuración principal Nginx | `/etc/nginx/nginx.conf` |
-| Certificados SSL | `/etc/letsencrypt/live/images.eduardo.me/` |
-| Archivo clave SSL | `/etc/letsencrypt/live/images.eduardo.me/privkey.pem` |
-| Certificado completo SSL | `/etc/letsencrypt/live/images.eduardo.me/fullchain.pem` |
-| Configuración SSL Nginx | `/etc/letsencrypt/options-ssl-nginx.conf` |
-| Params DH SSL | `/etc/letsencrypt/ssl-dhparams.pem` |
 
 **Configuraciones de red:**
 - Dominio: images.eduardo.me (apuntando a la IP del servidor)
@@ -114,27 +93,6 @@ sudo apt install -y build-essential imagemagick libpcre3 libpcre3-dev libmagickw
 - **pkg-config**: Herramienta para facilitar la compilación de aplicaciones que usan librerías.
 - **git**: Para clonar el repositorio del módulo.
 - **wget**: Para descargar archivos.
-
-> **⚠️ POSIBLE ERROR**: Si al ejecutar `./configure` aparece el error "checking for ngx_small_light dependencies ... not found" junto con un error de compilación de `MagickWand.h`, significa que el sistema no encuentra las librerías de desarrollo de ImageMagick.
-
-> **SOLUCIÓN**: Verificar que las cabeceras están disponibles:
-> ```bash
-> dpkg -L libmagickwand-dev | grep -i "wand\.h"
-> ```
-> La salida debe mostrar: `/usr/include/ImageMagick-7/wand/MagickWand.h`
-
-> Si el problema persiste, instalar ImageMagick desde código fuente:
-> ```bash
-> cd /tmp
-> wget https://imagemagick.org/archive/releases/ImageMagick.tar.gz
-> tar -xzf ImageMagick.tar.gz
-> cd ImageMagick-*
-> ./configure --prefix=/usr/local
-> make -j$(nproc)
-> sudo make install
-> sudo ldconfig
-> /usr/local/bin/convert --version
-> ```
 
 ---
 
