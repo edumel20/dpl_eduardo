@@ -19,7 +19,7 @@
 
 #### ***Objetivos***. <a name="id2"></a>
 
-El objetivo de esta tarea es desplegar aplicaciones web con distintos lenguajes de programación
+El objetivo de esta tarea es desplegar aplicaciones web con distintos lenguajes de programación (con sus respectivos frameworks)
 
 #### ***Material empleado***. <a name="id3"></a>
 
