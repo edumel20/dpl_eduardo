@@ -1,7 +1,7 @@
 
 <center>
 
-# UT4-A3 Administración de servidores de aplicaciones (Django)
+# UT4-A3 Administración de servidores de aplicaciones 
 
 
 </center>
@@ -23,8 +23,17 @@ El objetivo de esta tarea es desplegar aplicaciones web con distintos lenguajes 
 
 #### ***Material empleado***. <a name="id3"></a>
 
-Máquina virtual con el sistema operativo **Debian 12 server** 
+**Hardware:**
+- Ordenador con arquitectura compatible para compilación de software
+- Conexión a internet para descarga de dependencias y módulos
+
+**Software y herramientas:**
+- **Sistema operativo**: Linux (distribución basada en Debian/Ubuntu)
+- **Nginx**: Servidor web 
+- **Django**: Framework de Python
+- **Laravel**: Framework de PHP
 
 #### ***Desarrollo***. <a name="id4"></a>
 
-
+##### **Frameworks:**
+- [Django]()
