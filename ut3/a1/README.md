@@ -307,7 +307,7 @@ nano /home/daw/Escritorio/dpl_eduardo/ut3/a1/index.html
   - `sharpen`: Enfoque con formato `radius x sigma`
   - `blur`: Desenfoque con formato `radius x sigma`
 
-- **Indicador de conexión segura** (🔒) que muestra el certificado SSL válido
+- **Indicador de conexión segura** que muestra el certificado SSL válido
 
 ---
 
@@ -335,7 +335,7 @@ Lista de imágenes:
 **Verificación del funcionamiento**
 
 1. Acceder a `https://images.eduardo.me` en un navegador web
-2. Observar el indicador de conexión segura (🔒) y el certificado SSL
+2. Observar el indicador de conexión segura y el certificado SSL
 3. Verificar que se muestran las 20 imágenes con los parámetros por defecto
 4. Modificar los parámetros del formulario y pulsar "Generar"
 5. Confirmar que las imágenes se actualizan con los nuevos efectos aplicados
