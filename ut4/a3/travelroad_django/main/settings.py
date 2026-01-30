@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-@g6a3!h%mi1x4%+_#=$qt%mn5(%sbd+f4fc%!)p(#2(x=h4856'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=True, cast=config.boolean)
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -76,11 +76,11 @@ WSGI_APPLICATION = 'main.wsgi.application'
 DATABASES = {
  'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME', default='travelroad'),
-        'USER': config('DB_USERNAME', default='travelroad_user'),
-        'PASSWORD': config('DB_PASSWORD', default='dpl0000'),
-        'HOST': config('DB_HOST', default='localhost'),
-        'PORT': config('DB_PORT', default=5432, cast=int)
+        'NAME': 'travelroad',
+        'USER': 'travelroad_user',
+        'PASSWORD': 'dpl0000',
+        'HOST': 'localhost',
+        'PORT': 5432,
     }
 }
 
