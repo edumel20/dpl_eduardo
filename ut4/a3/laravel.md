@@ -61,28 +61,23 @@ composer create-project laravel/laravel travelroad
 Vemos que se ha creado una carpeta `travelroad` con el andamio (_scaffolding_) para empezar a trabajar:
 
 ```console
-ls -l
-total 352K
--rw-r--r--  1 sdelquin sdelquin  263 ene  2 14:45 vite.config.js
-drwxr-xr-x  4 sdelquin sdelquin 4,0K ene  2 14:45 tests
-drwxr-xr-x  5 sdelquin sdelquin 4,0K ene  2 14:45 storage
-drwxr-xr-x  2 sdelquin sdelquin 4,0K ene  2 14:45 routes
-drwxr-xr-x  5 sdelquin sdelquin 4,0K ene  2 14:45 resources
--rw-r--r--  1 sdelquin sdelquin 4,1K ene  2 14:45 README.md
-drwxr-xr-x  2 sdelquin sdelquin 4,0K ene  2 14:45 public
--rw-r--r--  1 sdelquin sdelquin 1,2K ene  2 14:45 phpunit.xml
--rw-r--r--  1 sdelquin sdelquin  286 ene  2 14:45 package.json
-drwxr-xr-x  3 sdelquin sdelquin 4,0K ene  2 14:45 lang
-drwxr-xr-x  5 sdelquin sdelquin 4,0K ene  2 14:45 database
-drwxr-xr-x  2 sdelquin sdelquin 4,0K ene  2 14:45 config
--rw-r--r--  1 sdelquin sdelquin 1,8K ene  2 14:45 composer.json
-drwxr-xr-x  3 sdelquin sdelquin 4,0K ene  2 14:45 bootstrap
--rwxr-xr-x  1 sdelquin sdelquin 1,7K ene  2 14:45 artisan
-drwxr-xr-x  7 sdelquin sdelquin 4,0K ene  2 14:45 app
--rw-r--r--  1 sdelquin sdelquin 280K ene 10 09:29 composer.lock
--rw-r--r-- 39 sdelquin sdelquin 4,0K ene 10 09:29 vendor
-
-PONER LAS RUTAS DEL ORDENA DE CLASE!!
+total 364
+-rw-r--r-- 1 dplprod_alumno dplprod_alumno   3911 Jan 13 16:43 README.md
+drwxr-xr-x 5 dplprod_alumno dplprod_alumno   4096 Jan 13 16:43 app
+-rwxr-xr-x 1 dplprod_alumno dplprod_alumno    425 Jan 13 16:43 artisan
+drwxr-xr-x 3 dplprod_alumno dplprod_alumno   4096 Jan 13 16:43 bootstrap
+-rw-r--r-- 1 dplprod_alumno dplprod_alumno   2836 Jan 13 16:43 composer.json
+-rw-r--r-- 1 dplprod_alumno dplprod_alumno 308385 Jan 13 16:43 composer.lock
+drwxr-xr-x 2 dplprod_alumno dplprod_alumno   4096 Jan 13 16:43 config
+drwxr-xr-x 5 dplprod_alumno dplprod_alumno   4096 Jan 13 16:43 database
+-rw-r--r-- 1 dplprod_alumno dplprod_alumno    414 Jan 13 16:43 package.json
+-rw-r--r-- 1 dplprod_alumno dplprod_alumno   1284 Jan 13 16:43 phpunit.xml
+drwxr-xr-x 2 dplprod_alumno dplprod_alumno   4096 Jan 13 16:43 public
+drwxr-xr-x 5 dplprod_alumno dplprod_alumno   4096 Jan 13 16:43 resources
+drwxr-xr-x 2 dplprod_alumno dplprod_alumno   4096 Jan 13 16:43 routes
+drwxr-xr-x 5 dplprod_alumno dplprod_alumno   4096 Jan 13 16:43 storage
+drwxr-xr-x 4 dplprod_alumno dplprod_alumno   4096 Jan 13 16:43 tests
+-rw-r--r-- 1 dplprod_alumno dplprod_alumno    436 Jan 13 16:43 vite.config.js
 ```
 
 Entramos en la carpeta de trabajo y probamos que se ha instalado correctamente [artisan](https://laravel.com/docs/9.x/artisan), **la interfaz en línea de comandos para Laravel**:
