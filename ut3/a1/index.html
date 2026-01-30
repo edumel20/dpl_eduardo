@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Procesador de Imágenes - ngx_small_light</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .form-panel {
+            flex: 1;
+            min-width: 350px;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        .preview-panel {
+            flex: 2;
+            min-width: 400px;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .help-text {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .image-item {
+            background: #f5f5f5;
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .image-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            transition: transform 0.3s;
+        }
+        
+        .image-item img:hover {
+            transform: scale(1.05);
+        }
+        
+        .image-item p {
+            margin-top: 10px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .secure-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: #4CAF50;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            margin-top: 10px;
+        }
+        
+        .secure-badge::before {
+            content: "🔒";
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .form-panel, .preview-panel {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Procesador de Imágenes</h1>
+            <p>Genera miniaturas y aplica efectos con ngx_small_light</p>
+            <div class="secure-badge">Conexión Segura SSL</div>
+        </header>
+        
+        <div class="main-content">
+            <div class="form-panel">
+                <h2>Configuración de Imagen</h2>
+                <form id="imageForm">
+                    <div class="form-group">
+                        <label for="size">Tamaño de la imagen (px)</label>
+                        <input type="number" id="size" name="size" value="300" min="50" max="1200">
+                        <p class="help-text">Lado de la imagen cuadrada en píxeles</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="borderWidth">Ancho del borde (px)</label>
+                        <input type="number" id="borderWidth" name="borderWidth" value="10" min="0" max="50">
+                        <p class="help-text">Ancho del borde en píxeles</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="borderColor">Color del borde</label>
+                        <input type="text" id="borderColor" name="borderColor" value="#FF6B6B" placeholder="#RRGGBB">
+                        <p class="help-text">Color en formato hexadecimal (ej: #FF6B6B)</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="focus">Enfoque</label>
+                        <input type="text" id="focus" name="focus" value="0x0.5" placeholder="radius x sigma">
+                        <p class="help-text">Formato: <radius>x<sigma> (ej: 0x0.5)</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="blur">Desenfoque</label>
+                        <input type="text" id="blur" name="blur" value="10x2" placeholder="radius x sigma">
+                        <p class="help-text">Formato: <radius>x<sigma> (ej: 10x2)</p>
+                    </div>
+                    
+                    <button type="submit">Generar Imágenes</button>
+                </form>
+            </div>
+            
+            <div class="preview-panel">
+                <h2>Galería de Imágenes</h2>
+                <div class="image-gallery" id="imageGallery">
+                    <!-- Las imágenes se generarán aquí -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Lista de imágenes disponibles
+        const images = [
+            'imagen1.jpg',
+            'imagen2.jpg',
+            'imagen3.jpg',
+            'imagen4.jpg',
+            'imagen5.jpg',
+            'imagen6.jpg'
+        ];
+        
+        // Generar URLs para las imágenes procesadas
+        function generateImageUrl(filename, params) {
+            const baseUrl = `https://images.[TU_IP].sslip.io/img/${filename}`;
+            const queryParams = new URLSearchParams();
+            
+            // Tamaño de la imagen
+            queryParams.set('dw', params.size);
+            queryParams.set('dh', params.size);
+            
+            // Borde
+            if (params.borderWidth > 0) {
+                queryParams.set('bo', `${params.borderWidth}px_solid_${params.borderColor}`);
+            }
+            
+            // Enfoque
+            if (params.focus) {
+                const [radius, sigma] = params.focus.split('x');
+                queryParams.set('sharpen', `${radius}x${sigma}`);
+            }
+            
+            // Desenfoque
+            if (params.blur) {
+                const [radius, sigma] = params.blur.split('x');
+                queryParams.set('blur', `${radius}x${sigma}`);
+            }
+            
+            return `${baseUrl}?${queryParams.toString()}`;
+        }
+        
+        // Renderizar galería de imágenes
+        function renderGallery(params) {
+            const gallery = document.getElementById('imageGallery');
+            gallery.innerHTML = '';
+            
+            images.forEach(image => {
+                const imageUrl = generateImageUrl(image, params);
+                
+                const imageItem = document.createElement('div');
+                imageItem.className = 'image-item';
+                imageItem.innerHTML = `
+                    <img src="${imageUrl}" alt="${image}" loading="lazy">
+                    <p>${image}</p>
+                `;
+                
+                gallery.appendChild(imageItem);
+            });
+        }
+        
+        // Manejar envío del formulario
+        document.getElementById('imageForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const params = {
+                size: document.getElementById('size').value,
+                borderWidth: document.getElementById('borderWidth').value,
+                borderColor: document.getElementById('borderColor').value,
+                focus: document.getElementById('focus').value,
+                blur: document.getElementById('blur').value
+            };
+            
+            renderGallery(params);
+        });
+        
+        // Generar imágenes iniciales al cargar la página
+        window.addEventListener('DOMContentLoaded', function() {
+            renderGallery({
+                size: 300,
+                borderWidth: 10,
+                borderColor: '#FF6B6B',
+                focus: '0x0.5',
+                blur: '10x2'
+            });
+        });
+    </script>
+</body>
+</html>
+
