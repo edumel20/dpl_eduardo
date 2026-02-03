@@ -223,7 +223,7 @@ vi resources/views/travelroad.blade.php
 </html>
 ```
 
-Ya podemos abrir el navegador en http://travelroad y comprobar que todo está funcionando correctamente:
+Ya podemos abrir el navegador y comprobar que todo está funcionando correctamente:
 
 ```console
 firefox http://laravel.eduardo.arkania.es
@@ -265,33 +265,3 @@ Generating optimized autoload files
 81 packages you are using are looking for funding.
 Use the `composer fund` command to find out more!
 ```
-
-### Script de despliegue
-
-Veamos un ejemplo de **script de despliegue** para esta aplicación:
-
-```console
-vi deploy.sh
-```
-
-> Contenido:
-
-```bash
-#!/bin/bash
-
-ssh arkania "
-  cd $(dirname $0)
-  git pull
-  composer install
-"
-
-# HACER EL DEPLOY.SH EN CLASE
-```
-
-Damos permisos de ejecución:
-
-```console
-chmod +x deploy.sh
-```
-
-> 💡 `deploy.sh` es un fichero que se incluye en el control de versiones.
