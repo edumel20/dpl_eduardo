@@ -327,10 +327,6 @@ Django version 4.1.3, using settings 'main.settings'
 Starting development server at http://127.0.0.1:8000/
 Quit the server with CONTROL-C.
 ```
-
-Si accedemos a http://localhost:8000 podemos observar el resultado esperado:
-
-
 ### Parametrizando la configuración
 
 Queremos que las credenciales a la base de datos sea un elemento configurable en función del entorno en el que estemos trabajando.
@@ -737,5 +733,9 @@ chmod +x deploy.sh
 ```
 
 > 💡 `deploy.sh` es un fichero que se incluye en el control de versiones.
-
+El resultado es el siguiente:
+> 
+[django](https://github.com/edumel20/2_DAW/blob/main/DPL/fotos_ut4_a1/django_1.png?raw=true)
+[django_1](https://github.com/edumel20/2_DAW/blob/main/DPL/fotos_ut4_a1/django_2.png?raw=true)
+[django_2](https://github.com/edumel20/2_DAW/blob/main/DPL/fotos_ut4_a1/django_3.png?raw=true)
 
