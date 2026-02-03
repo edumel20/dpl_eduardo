@@ -735,7 +735,7 @@ chmod +x deploy.sh
 > 💡 `deploy.sh` es un fichero que se incluye en el control de versiones.
 El resultado es el siguiente:
 > 
-[django](https://github.com/edumel20/2_DAW/blob/main/DPL/fotos_ut4_a1/django_1.png?raw=true)
-[django_1](https://github.com/edumel20/2_DAW/blob/main/DPL/fotos_ut4_a1/django_2.png?raw=true)
-[django_2](https://github.com/edumel20/2_DAW/blob/main/DPL/fotos_ut4_a1/django_3.png?raw=true)
+![django](https://github.com/edumel20/2_DAW/blob/main/DPL/fotos_ut4_a1/django_1.png?raw=true)
+![django_1](https://github.com/edumel20/2_DAW/blob/main/DPL/fotos_ut4_a1/django_2.png?raw=true)
+![django_2](https://github.com/edumel20/2_DAW/blob/main/DPL/fotos_ut4_a1/django_3.png?raw=true)
 
