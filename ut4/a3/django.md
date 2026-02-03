@@ -96,16 +96,15 @@ Un proyecto **Django está formado por "aplicaciones"**. Lo primero será crear 
 A través de este comando se ha creado una carpeta para alojar la aplicación `places` con el siguiente contenido:
 
 ```console
-ls -l places
-total 24
--rw-r--r-- 1 sdelquin sdelquin   63 nov 15 10:19 admin.py
--rw-r--r-- 1 sdelquin sdelquin  144 nov 15 10:19 apps.py
--rw-r--r-- 1 sdelquin sdelquin    0 nov 15 10:19 __init__.py
-drwxr-xr-x 2 sdelquin sdelquin 4096 nov 15 10:19 migrations
--rw-r--r-- 1 sdelquin sdelquin   57 nov 15 10:19 models.py
--rw-r--r-- 1 sdelquin sdelquin   60 nov 15 10:19 tests.py
--rw-r--r-- 1 sdelquin sdelquin   63 nov 15 10:19 views.py
-PONER LA RUTA DEL ORDENA DE CLASE!!!!!!!
+ls -l
+total 152
+-rw-rw-r-- 1 dplprod_alumno dplprod_alumno 131072 Dec 12 17:08 db.sqlite3
+-rwxr-xr-x 1 dplprod_alumno dplprod_alumno    298 Jan 30 16:45 deploy.sh
+drwxr-xr-x 3 dplprod_alumno dplprod_alumno   4096 Jan 30 16:16 main
+-rwxr-xr-x 1 dplprod_alumno dplprod_alumno    660 Dec 12 17:08 manage.py
+drwxr-xr-x 5 dplprod_alumno dplprod_alumno   4096 Jan 30 16:01 places
+-rw-r--r-- 1 dplprod_alumno dplprod_alumno     34 Dec 12 18:12 requirements.txt
+-rwxr-xr-x 1 dplprod_alumno dplprod_alumno    224 Jan 13 18:08 run.sh
 ```
 
 Hemos de **activar esta aplicación** para que Django sea consciente de que existe. Para ello añadimos esta línea en el fichero `main/settings.py`:
@@ -328,10 +327,6 @@ Django version 4.1.3, using settings 'main.settings'
 Starting development server at http://127.0.0.1:8000/
 Quit the server with CONTROL-C.
 ```
-
-Si accedemos a http://localhost:8000 podemos observar el resultado esperado:
-
-
 ### Parametrizando la configuración
 
 Queremos que las credenciales a la base de datos sea un elemento configurable en función del entorno en el que estemos trabajando.
@@ -664,11 +659,20 @@ sudo vi /etc/nginx/conf.d/travelroad.conf MIRAR EN CLASE
 
 ```nginx
 server {
+    listen 8080;
     server_name travelroad;
 
     location / {
-        include proxy_params;
-        proxy_pass http://unix:/tmp/travelroad.sock;  # socket UNIX
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_pass http://unix:/tmp/travelroad.sock;
+    }
+
+
+    location /static/ {
+        alias /home/dplprod_alumno/dpl_eduardo/ut4/a3/travelroad_django/static/;
     }
 }
 ```
@@ -704,22 +708,23 @@ vi deploy.sh
 ```
 
 > Contenido:
-
 ```bash
 #!/bin/bash
 
-ssh arkania " 
- ssh dplprod_alumno@10.102.23.40 "
-  cd /home/dpl_eduardo/ut4/a3/travelroad_django
+ssh dplprod_alumno@10.102.24.40 "
+  cd /home/dplprod_alumno/dpl_eduardo/ut4/a3/travelroad_django
   git pull
 
-	source .venv/bin/activate
-	supervisorctl restart travelroad
-	./manage.py runserver 0.0.0.0:8000
-  
+  source .venv/bin/activate
+  pip install -r requirements.txt
+
+  # python manage.py migrate
+  # python manage.py collectstatic --no-input
+
+  supervisorctl restart travelroad
 "
+
 ```
-#MIRAR EL SCRIPT DE CLASE
 
 Damos permisos de ejecución:
 
@@ -728,5 +733,9 @@ chmod +x deploy.sh
 ```
 
 > 💡 `deploy.sh` es un fichero que se incluye en el control de versiones.
-
+El resultado es el siguiente:
+> 
+![django](https://github.com/edumel20/2_DAW/blob/main/DPL/fotos_ut4_a1/django_1.png?raw=true)
+![django_1](https://github.com/edumel20/2_DAW/blob/main/DPL/fotos_ut4_a1/django_2.png?raw=true)
+![django_2](https://github.com/edumel20/2_DAW/blob/main/DPL/fotos_ut4_a1/django_3.png?raw=true)
 

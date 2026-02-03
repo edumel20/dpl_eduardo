@@ -128,8 +128,8 @@ sudo vi /etc/nginx/conf.d/travelroad.conf
 
 ```nginx
 server {
-    server_name travelroad;
-    root /home/sdelquin/travelroad/public; # MIRAR LA RUTA DEL ORDENA DE CLASE
+    server_name laravel.eduardo.arkania.es;
+    root /home/dplprod_alumno/dpl_eduardo/ut4/a3/travelroad_laravel/travelroad/>
 
     index index.html index.htm index.php;
 
@@ -138,11 +138,12 @@ server {
     }
 
     location ~ \.php$ {
-        fastcgi_pass unix:/var/run/php/php8.2-fpm.sock;
-        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        fastcgi_pass unix:/run/php/php8.4-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         include fastcgi_params;
     }
 }
+
 ```
 
 > 💡 Recordar añadir `travelroad` al fichero `/etc/hosts` en caso de estar trabajando en local.
@@ -160,10 +161,8 @@ sudo systemctl reload nginx
 Si ahora abrimos el navegador en http://travelroad veremos una página de inicio (_launching_) con información general sobre el framework:
 
 ```console
-firefox http://travelroad
+firefox http://laravel.eduardo.arkania.es
 ```
-
-![Laravel Init](./images/laravel-init.png)
 
 ### Lógica de negocio
 
@@ -227,10 +226,11 @@ vi resources/views/travelroad.blade.php
 Ya podemos abrir el navegador en http://travelroad y comprobar que todo está funcionando correctamente:
 
 ```console
-firefox http://travelroad
+firefox http://laravel.eduardo.arkania.es
+
 ```
 
-![Laravel Works](./images/laravel-works.png)
+![Laravel](https://github.com/edumel20/2_DAW/blob/main/DPL/fotos_ut4_a1/laravel_1.png?raw=true)
 
 ### Producción
 
