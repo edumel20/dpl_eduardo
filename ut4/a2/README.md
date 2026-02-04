@@ -50,9 +50,9 @@ Los objetivos de esta práctica son:
 
 **Software:**
 - PostgreSQL 14+
-- pgAdmin 7+
-- PHP 8.2
-- Apache2
+- pgAdmin 4
+- PHP 8.4
+- Nginx
 - Git
 
 **Dominios configurados:**
